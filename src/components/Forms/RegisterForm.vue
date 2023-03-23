@@ -68,7 +68,7 @@ export default {
 <style lang="scss" scoped>
 .register {
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   background-color: var(--light);
   display: flex;
   flex-direction: column;
