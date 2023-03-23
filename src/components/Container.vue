@@ -12,6 +12,7 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--g-32);
   padding: var(--p-48) var(--p-20);
 }

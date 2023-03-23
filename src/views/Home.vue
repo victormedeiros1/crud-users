@@ -8,23 +8,5 @@ export default {
 </script>
 
 <template>
-  <div class="home">
-    <header class="home__header">Olá, visitante!</header>
-    <SignIn />
-  </div>
+  <SignIn />
 </template>
-
-<style lang="scss" scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--g-32);
-
-  &__header {
-    color: var(--light);
-    font-size: var(--fs-32);
-    text-shadow: var(--text-shadow);
-  }
-}
-</style>

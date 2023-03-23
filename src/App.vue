@@ -5,6 +5,15 @@ import Container from './components/Container.vue'
 
 <template>
   <Container>
+    <header>Olá, visitante!</header>
     <RouterView />
   </Container>
 </template>
+
+<style lang="scss" scoped>
+header {
+  color: var(--light);
+  font-size: var(--fs-32);
+  text-shadow: var(--text-shadow);
+}
+</style>
