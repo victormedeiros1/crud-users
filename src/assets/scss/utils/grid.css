@@ -1,0 +1,11 @@
+.d-grid {
+  width: 100%;
+  display: grid;
+}
+.grid-col-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-gap-24 {
+  gap: var(--g-24);
+}
