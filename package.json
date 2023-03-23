@@ -11,6 +11,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fontsource/questrial": "^4.5.11",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
@@ -24,6 +25,8 @@
     "eslint-plugin-vue": "^9.9.0",
     "jsdom": "^21.1.0",
     "prettier": "^2.8.4",
+    "sass": "^1.59.3",
+    "sass-loader": "^13.2.1",
     "vite": "^4.1.4",
     "vitest": "^0.29.1"
   }
