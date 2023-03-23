@@ -1,7 +1,7 @@
 <script>
 import { RouterLink } from 'vue-router'
-import Field from '../components/Field.vue'
-import Submit from '../components/Submit.vue'
+import Field from '@/components/Field.vue'
+import Submit from '@/components/Submit.vue'
 
 export default {
   name: 'SignIn',
