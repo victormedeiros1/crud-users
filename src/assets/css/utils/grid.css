@@ -2,8 +2,13 @@
   width: 100%;
   display: grid;
 }
+
 .grid-col-2 {
   grid-template-columns: 1fr 1fr;
+}
+
+.grid-col-3 {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .grid-gap-24 {
