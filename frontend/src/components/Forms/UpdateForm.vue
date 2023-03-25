@@ -70,7 +70,7 @@ export default {
       </div>
 
       <footer class="update__footer">
-        <Submit color="success">CRIAR CONTA</Submit>
+        <Submit color="success">SALVAR</Submit>
         <Submit color="error">DELETAR USUÁRIO</Submit>
       </footer>
     </form>
