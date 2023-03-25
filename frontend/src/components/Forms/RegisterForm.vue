@@ -28,6 +28,19 @@ export default {
         confirmPassword: ''
       }
     }
+  },
+  methods: {
+    handleSubmit() {
+      console.log(JSON.stringify(this.data))
+      fetch('http://localhost:5000/create-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(this.data)
+      })
+    }
   }
 }
 </script>
@@ -37,29 +50,29 @@ export default {
     <h2 class="register__title">Preencha o formulário de cadastro</h2>
 
     <form class="register__form" @submit.prevent="handleSubmit">
-      <Field v-model="data.name" label="Nome" />
-      <Field v-model="data.email" label="Email" />
+      <Field v-model="data.name" name="name" label="Nome" />
+      <Field v-model="data.email" name="email" label="Email" />
 
       <div class="d-grid grid-col-2 grid-gap-24">
-        <Field v-model="data.address.country" label="País" />
-        <Field v-model="data.address.state" label="Estado" />
+        <Field v-model="data.address.country" name="country" label="País" />
+        <Field v-model="data.address.state" name="state" label="Estado" />
       </div>
 
       <div class="d-grid grid-col-2 grid-gap-24">
-        <Field v-model="data.address.city" label="Município" />
-        <Field v-model="data.address.cep" label="CEP" />
+        <Field v-model="data.address.city" name="city" label="Município" />
+        <Field v-model="data.address.cep" name="cep" label="CEP" />
       </div>
 
       <div class="d-grid grid-col-2 grid-gap-24">
-        <Field v-model="data.address.street" label="Rua" />
-        <Field v-model="data.address.number" label="Número" />
+        <Field v-model="data.address.street" name="street" label="Rua" />
+        <Field v-model="data.address.number" name="number" label="Número" />
       </div>
 
-      <Field v-model="data.address.complement" label="Complemento" />
-      <Field v-model="data.address.cpf" label="CPF" />
-      <Field v-model="data.address.pis" label="PIS" />
-      <Field v-model="data.address.password" label="Senha" />
-      <Field v-model="data.address.confirmPassword" label="Confirmar senha" />
+      <Field v-model="data.address.complement" name="complement" label="Complemento" />
+      <Field v-model="data.cpf" name="cpf" label="CPF" />
+      <Field v-model="data.pis" name="pis" label="PIS" />
+      <Field v-model="data.password" name="password" label="Senha" />
+      <Field v-model="data.confirmPassword" name="confirmPassword" label="Confirmar senha" />
 
       <Submit>CRIAR CONTA</Submit>
     </form>

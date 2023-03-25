@@ -4,6 +4,7 @@ export default {
   props: {
     value: { type: String, default: '' },
     type: { type: String, default: 'text' },
+    name: { type: String, default: 'text' },
     label: { type: String, default: '' }
   },
   emits: ['update:modelValue']
@@ -13,7 +14,11 @@ export default {
 <template>
   <div class="group">
     <label class="group__label">{{ label }}</label>
-    <input class="group__field" @input="$emit('update:modelValue', $event.target.value)" />
+    <input
+      class="group__field"
+      :name="name"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
   </div>
 </template>
 

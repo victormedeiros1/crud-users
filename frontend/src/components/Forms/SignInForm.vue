@@ -32,8 +32,8 @@ export default {
     <h2 class="sign-in__title">Entre na plataforma</h2>
 
     <form class="sign-in__form" @submit.prevent="handleSubmit">
-      <Field v-model="email" label="Email, CPF ou PIS" />
-      <Field v-model="password" label="Senha" />
+      <Field v-model="email" name="login" label="Email, CPF ou PIS" />
+      <Field v-model="password" name="password" label="Senha" />
       <Submit>ENTRAR</Submit>
     </form>
 
