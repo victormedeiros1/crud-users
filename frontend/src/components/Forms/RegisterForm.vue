@@ -1,15 +1,21 @@
 <script>
 import Field from '@/components/Field.vue'
 import Submit from '@/components/Submit.vue'
+import Selector from '@/components/Selector.vue'
+import { countries, states } from '../../helpers/slugs'
 
 export default {
   name: 'SignIn',
   components: {
     Field,
-    Submit
+    Submit,
+    Selector
   },
   data() {
     return {
+      countries,
+      states,
+      loading: false,
       data: {
         name: '',
         email: '',
@@ -29,17 +35,45 @@ export default {
       }
     }
   },
+  // mounted() {
+  //   setInterval(() => {
+  //     console.log(this.data)
+  //   }, 3000)
+  // },
   methods: {
     handleSubmit() {
-      console.log(JSON.stringify(this.data))
-      fetch('http://localhost:5000/create-user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(this.data)
-      })
+      this.requestAttempt()
+    },
+    requestAttempt() {
+      try {
+        this.loading = true
+
+        fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/create-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: JSON.stringify(this.data)
+        }).then(({ status }) => {
+          if (status === 200) {
+            this.requestSuccess(status)
+          } else {
+            this.requestFailure(status)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    requestSuccess(status) {
+      console.log('Sucesso', status)
+      this.$router.push('/')
+    },
+    requestFailure(status) {
+      console.log('Algo deu errado', status)
     }
   }
 }
@@ -54,8 +88,8 @@ export default {
       <Field v-model="data.email" name="email" label="Email" />
 
       <div class="d-grid grid-col-2 grid-gap-24">
-        <Field v-model="data.address.country" name="country" label="País" />
-        <Field v-model="data.address.state" name="state" label="Estado" />
+        <Selector v-model="data.address.country" name="country" label="País" :options="countries" />
+        <Selector v-model="data.address.state" name="state" label="Estado" :options="states" />
       </div>
 
       <div class="d-grid grid-col-2 grid-gap-24">
@@ -71,8 +105,13 @@ export default {
       <Field v-model="data.address.complement" name="complement" label="Complemento" />
       <Field v-model="data.cpf" name="cpf" label="CPF" />
       <Field v-model="data.pis" name="pis" label="PIS" />
-      <Field v-model="data.password" name="password" label="Senha" />
-      <Field v-model="data.confirmPassword" name="confirmPassword" label="Confirmar senha" />
+      <Field v-model="data.password" type="password" name="password" label="Senha" />
+      <Field
+        v-model="data.confirmPassword"
+        type="password"
+        name="confirmPassword"
+        label="Confirmar senha"
+      />
 
       <Submit>CRIAR CONTA</Submit>
     </form>
