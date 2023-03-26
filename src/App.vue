@@ -1,7 +1,7 @@
 <script>
 import { RouterView } from 'vue-router'
 import Container from '@/components/Container.vue'
-import { getSessionUserName } from './utils/session'
+
 export default {
   components: {
     Container
@@ -9,7 +9,7 @@ export default {
   data() {
     return {
       RouterView,
-      userName: getSessionUserName()
+      userName: sessionStorage.name ? sessionStorage.name : ''
     }
   }
 }
