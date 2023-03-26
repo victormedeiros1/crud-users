@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router'
 import Field from '@/components/Field.vue'
 import Submit from '@/components/Submit.vue'
 import { requestAttempt } from '../../utils/requests'
+import { setSessionData } from '../../utils/session'
 
 export default {
   name: 'SignIn',
@@ -24,9 +25,10 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const data = await this.requestAttempt(this.route, this.data)
+      const [data] = await this.requestAttempt(this.route, this.data)
+      const user = { ...data }
 
-      console.log(data)
+      setSessionData(user)
     }
   }
 }

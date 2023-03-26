@@ -1,11 +1,23 @@
-<script setup>
+<script>
 import { RouterView } from 'vue-router'
 import Container from '@/components/Container.vue'
+import { getSessionUserName } from './utils/session'
+export default {
+  components: {
+    Container
+  },
+  data() {
+    return {
+      RouterView,
+      userName: getSessionUserName()
+    }
+  }
+}
 </script>
 
 <template>
   <Container>
-    <header>Olá, visitante!</header>
+    <header>Olá, {{ userName }}!</header>
     <RouterView />
   </Container>
 </template>
