@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import Field from '@/components/Field.vue'
 import Submit from '@/components/Submit.vue'
+import { requestAttempt } from '../../utils/requests'
 
 export default {
   name: 'SignIn',
@@ -12,14 +13,20 @@ export default {
   },
   data() {
     return {
-      email: '',
-      password: ''
+      requestAttempt,
+      loading: false,
+      route: '/auth',
+      data: {
+        login: '',
+        password: ''
+      }
     }
   },
   methods: {
-    handleSubmit() {
-      console.log(this.email)
-      console.log(this.password)
+    async handleSubmit() {
+      const data = await this.requestAttempt(this.route, this.data)
+
+      console.log(data)
     }
   }
 }
@@ -32,8 +39,8 @@ export default {
     <h2 class="sign-in__title">Entre na plataforma</h2>
 
     <form class="sign-in__form" @submit.prevent="handleSubmit">
-      <Field v-model="email" name="login" label="Email, CPF ou PIS" />
-      <Field v-model="password" name="password" label="Senha" />
+      <Field v-model="data.login" name="login" label="Email, CPF ou PIS" />
+      <Field v-model="data.password" type="password" name="password" label="Senha" />
       <Submit>ENTRAR</Submit>
     </form>
 
