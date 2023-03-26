@@ -1,37 +1,63 @@
 <script>
 import Submit from '@/components/Submit.vue'
+import Toast from '@/components/Toast.vue'
+import { getUser } from '../utils/requests'
+import { messages } from '../helpers/messages'
 
 export default {
   name: 'Dashboard',
   components: {
-    Submit
+    Submit,
+    Toast
+  },
+  data() {
+    return {
+      userData: {},
+      toastMessage: ''
+    }
+  },
+  mounted() {
+    this.loadUserData()
+  },
+  methods: {
+    async loadUserData() {
+      this.userData = await getUser()
+
+      if (this.userData === 'error') {
+        this.toastMessage = messages.requestError
+      } else {
+        this.toastMessage = 'Seus dados chegaram em segurança.'
+      }
+      setTimeout(() => (this.toastMessage = ''), 5000)
+    }
   }
 }
 </script>
 
 <template>
   <main class="dashboard">
+    <Toast :message="toastMessage" />
     <section class="dashboard__section">
       <h2 class="dashboard__title">DADOS PESSOAIS</h2>
       <table>
         <tr>
           <td>
             <span>Nome</span>
-            <span>nome</span>
+            <span>{{ userData.name }}</span>
           </td>
           <td>
             <span>Email</span>
-            <span>email</span>
+            <span>{{ userData.email }}</span>
           </td>
         </tr>
         <tr>
           <td>
             <span>CPF</span>
-            <span>cpf</span>
+            <span>{{ userData.cpf }}</span>
           </td>
           <td>
             <span>PIS</span>
-            <span>pis</span>
+            <span>{{ userData.pis }}</span>
           </td>
         </tr>
       </table>
@@ -43,11 +69,11 @@ export default {
         <tr>
           <td colspan="2">
             <span>País</span>
-            <span>country</span>
+            <span>{{ userData.country }}</span>
           </td>
           <td>
             <span>Estado</span>
-            <span>state</span>
+            <span>{{ userData.state }}</span>
           </td>
         </tr>
         <tr>
@@ -57,21 +83,21 @@ export default {
           </td>
           <td>
             <span>CEP</span>
-            <span>cep</span>
+            <span>{{ userData.cep }}</span>
           </td>
           <td colspan="2">
             <span>Rua</span>
-            <span>street</span>
+            <span>{{ userData.street }}</span>
           </td>
         </tr>
         <tr>
           <td colspan="2">
             <span>Número</span>
-            <span>number</span>
+            <span>{{ userData.number }}</span>
           </td>
           <td>
             <span>Complemento</span>
-            <span>complement</span>
+            <span>{{ userData.complement }}</span>
           </td>
         </tr>
       </table>
@@ -83,7 +109,7 @@ export default {
         <tr>
           <td>
             <span>Senha</span>
-            <span>senha</span>
+            <span>{{ userData.password }} </span>
           </td>
         </tr>
       </table>
