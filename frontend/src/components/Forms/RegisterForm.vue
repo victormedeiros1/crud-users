@@ -2,19 +2,31 @@
 import Field from '@/components/Field.vue'
 import Submit from '@/components/Submit.vue'
 import Selector from '@/components/Selector.vue'
+import Toast from '@/components/Toast.vue'
 import { countries, states } from '../../helpers/slugs'
+import {
+  cpfValidation,
+  emailValidation,
+  cepValidation,
+  pisValidation,
+  passwordValidation
+} from '../../helpers/validations'
+import { errors } from '../../helpers/toasts'
 
 export default {
   name: 'SignIn',
   components: {
     Field,
     Submit,
-    Selector
+    Selector,
+    Toast
   },
   data() {
     return {
       countries,
       states,
+      errors,
+      toastMessage: '',
       loading: false,
       data: {
         name: '',
@@ -35,13 +47,41 @@ export default {
       }
     }
   },
-  // mounted() {
-  //   setInterval(() => {
-  //     console.log(this.data)
-  //   }, 3000)
-  // },
   methods: {
     handleSubmit() {
+      if (!emailValidation(this.data.email)) {
+        this.toastMessage = this.errors.email
+        setTimeout(() => (this.toastMessage = ''), 5000)
+
+        return false
+      }
+      if (!cepValidation(this.data.cep)) {
+        this.toastMessage = this.errors.cep
+        setTimeout(() => (this.toastMessage = ''), 5000)
+        return false
+      }
+      if (!cpfValidation(this.data.cpf)) {
+        this.toastMessage = this.errors.cpf
+        setTimeout(() => (this.toastMessage = ''), 5000)
+        return false
+      }
+      if (!pisValidation(this.data.pis)) {
+        this.toastMessage = this.errors.pis
+        setTimeout(() => (this.toastMessage = ''), 5000)
+        return false
+      }
+      if (!passwordValidation(this.data.password)) {
+        this.toastMessage = this.errors.password
+        setTimeout(() => (this.toastMessage = ''), 5000)
+        return false
+      }
+      if (this.data.password !== this.data.confirmPassword) {
+        this.toastMessage = this.errors.confirmPassword
+        setTimeout(() => (this.toastMessage = ''), 5000)
+        return false
+      }
+
+      // Se os dados forem válidos, é feito o cadastro.
       this.requestAttempt()
     },
     requestAttempt() {
@@ -68,12 +108,12 @@ export default {
         this.loading = false
       }
     },
-    requestSuccess(status) {
-      console.log('Sucesso', status)
+    requestSuccess() {
       this.$router.push('/')
     },
-    requestFailure(status) {
-      console.log('Algo deu errado', status)
+    requestFailure() {
+      this.toastMessage = this.errors.errorRequest
+      setTimeout(() => (this.toastMessage = ''), 5000)
     }
   }
 }
@@ -81,6 +121,7 @@ export default {
 
 <template>
   <div class="register">
+    <Toast :message="toastMessage" />
     <h2 class="register__title">Preencha o formulário de cadastro</h2>
 
     <form class="register__form" @submit.prevent="handleSubmit">
