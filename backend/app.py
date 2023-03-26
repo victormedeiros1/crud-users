@@ -1,4 +1,5 @@
 import mysql.connector
+import json
 
 connection = mysql.connector.connect(user='root', password='secret', host='localhost', port='3306', database='db_users')
 
@@ -20,6 +21,26 @@ CORS(app)
 def index():
     return users
 
+@app.route('/auth', methods=['POST'])
+def auth():
+    data = request.get_json()
+    login = data['login']
+    password = data['password']
+    
+    cursor.execute(f"SELECT * FROM TB_USERS WHERE (USE_EMAIL = '{login}' OR USE_CPF = '{login}' OR USE_PIS = '{login}') AND USE_PASSWORD = '{password}';")
+
+    rows = cursor.fetchall()
+    keys = ('id', 'name', 'country', 'state', 'city', 'cep', 'street', 'number', 'complement', 'cpf', 'pis', 'password')
+
+    result = []
+    for row in rows:
+        result.append(dict(zip(keys, row)))
+
+    # Serialize the result to JSON
+    artificialJson = json.dumps(result)
+
+    return artificialJson
+
 @app.route('/create-user', methods=['POST'])
 def createUser():
     data = request.get_json()
@@ -36,23 +57,9 @@ def createUser():
     pis = data['pis']
     password = data['password']
 
-    data = request.get_json()
-    print(name) 
-    print(email) 
-    print(country)
-    print(state)
-    print(city)
-    print(cep)
-    print(street)
-    print(number)
-    print(complement)
-    print(cpf) 
-    print(pis) 
-    print(password) 
-
     cursor.execute(
         f"INSERT INTO TB_USERS(USE_NAME, USE_EMAIL, USE_COUNTRY, USE_STATE, USE_CITY, USE_CEP, USE_STREET, USE_NUMBER, USE_COMPLEMENT, USE_CPF, USE_PIS, USE_PASSWORD) VALUES('{name}', '{email}', '{country}', '{state}', '{city}', '{cep}', '{street}', '{number}', '{complement}', '{pis}', '{cpf}', '{password}')")
     connection.commit()
     
-    return 'REQUISIÇÃO BEM SUCEIDADE'
+    return 'REQUISIÇÃO BEM SUCEDIDA'
 app.run(port = 5000, host='localhost', debug=True)
