@@ -1,14 +1,21 @@
 <script>
+import Loading from '@/components/Loading.vue'
 export default {
   name: 'Submit',
   props: {
-    color: { type: String, default: 'primary' }
+    color: { type: String, default: 'primary' },
+    loading: { type: Boolean, default: false }
+  },
+  components: {
+    Loading
   }
 }
 </script>
 
 <template>
-  <button :class="['submit', color]"><slot /></button>
+  <button :class="['submit', color, loading && 'disabled']">
+    <Loading v-if="loading" /> <slot v-else />
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -19,6 +26,14 @@ export default {
   border: none;
   border-radius: 8px;
   padding: var(--p-12) var(--p-24);
+
+  &:hover {
+    background-color: var(--primary-dark);
+  }
+}
+.disabled {
+  opacity: 0.8;
+  pointer-events: none;
 }
 .primary {
   background-color: var(--primary-main);
