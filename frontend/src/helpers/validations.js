@@ -41,7 +41,7 @@ export const emailValidation = (email) => {
   return regularExpression.test(email)
 }
 
-export const cepValidation = (cep = '5937000') => {
+export const cepValidation = (cep) => {
   const regularExpression = /^[0-9]{5}-?[0-9]{3}$/
   return regularExpression.test(cep)
 }
