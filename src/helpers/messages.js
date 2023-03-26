@@ -1,4 +1,4 @@
-export const errors = {
+export const messages = {
   email:
     'O email deve conter um @, domínio válido (ex: gmail) e ter uma terminação válida (ex: .com, .br).',
   cep: 'Digite um CEP válido.',

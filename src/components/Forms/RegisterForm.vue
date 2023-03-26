@@ -12,7 +12,7 @@ import {
   passwordValidation,
   clearData
 } from '../../helpers/validations'
-import { errors } from '../../helpers/toasts'
+import { messages } from '../../helpers/messages'
 
 export default {
   name: 'SignIn',
@@ -26,7 +26,6 @@ export default {
     return {
       countries,
       states,
-      errors,
       toastMessage: '',
       loading: false,
       data: {
@@ -50,44 +49,44 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // Alternativa a máscaras
+      // Alternativa às máscaras
       this.data.cpf = clearData(this.data.cpf)
       this.data.pis = clearData(this.data.pis)
       this.data.address.cep = clearData(this.data.address.cep)
 
       if (!emailValidation(this.data.email)) {
-        this.toastMessage = this.errors.email
+        this.toastMessage = messages.email
         setTimeout(() => (this.toastMessage = ''), 5000)
 
         return false
       }
       if (!cepValidation(this.data.address.cep)) {
-        this.toastMessage = this.errors.cep
+        this.toastMessage = messages.cep
         setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (!cpfValidation(this.data.cpf)) {
-        this.toastMessage = this.errors.cpf
+        this.toastMessage = messages.cpf
         setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (!pisValidation(this.data.pis)) {
-        this.toastMessage = this.errors.pis
+        this.toastMessage = messages.pis
         setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (!passwordValidation(this.data.password)) {
-        this.toastMessage = this.errors.password
+        this.toastMessage = messages.password
         setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (this.data.password !== this.data.confirmPassword) {
-        this.toastMessage = this.errors.confirmPassword
+        this.toastMessage = messages.confirmPassword
         setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
 
-      // Se os dados forem válidos, é feito o cadastro.
+      // // Se os dados forem válidos, é feito o cadastro.
       this.requestAttempt()
     },
     requestAttempt() {
@@ -118,7 +117,7 @@ export default {
       this.$router.push('/')
     },
     requestFailure() {
-      this.toastMessage = this.errors.errorRequest
+      this.toastMessage = messages.errorRequest
       setTimeout(() => (this.toastMessage = ''), 5000)
     }
   }
