@@ -1,3 +1,7 @@
+export const clearData = (data) => {
+  return data.replace(/[.-]/g, '')
+}
+
 export const cpfValidation = (cpf) => {
   // Remove caracteres indesejados do CPF (pontos, traços, etc.)
   cpf = cpf.replace(/[^\d]+/g, '')

@@ -9,7 +9,8 @@ import {
   emailValidation,
   cepValidation,
   pisValidation,
-  passwordValidation
+  passwordValidation,
+  clearData
 } from '../../helpers/validations'
 import { errors } from '../../helpers/toasts'
 
@@ -49,13 +50,18 @@ export default {
   },
   methods: {
     handleSubmit() {
+      // Alternativa a máscaras
+      this.data.cpf = clearData(this.data.cpf)
+      this.data.pis = clearData(this.data.pis)
+      this.data.address.cep = clearData(this.data.address.cep)
+
       if (!emailValidation(this.data.email)) {
         this.toastMessage = this.errors.email
         setTimeout(() => (this.toastMessage = ''), 5000)
 
         return false
       }
-      if (!cepValidation(this.data.cep)) {
+      if (!cepValidation(this.data.address.cep)) {
         this.toastMessage = this.errors.cep
         setTimeout(() => (this.toastMessage = ''), 5000)
         return false
