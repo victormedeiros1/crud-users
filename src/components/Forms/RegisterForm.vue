@@ -120,37 +120,43 @@ export default {
 <template>
   <div class="register">
     <Toast :message="toastMessage" />
-    <h2 class="register__title">Preencha o formulário de cadastro</h2>
+    <h2 class="register__title">Formulário de cadastro</h2>
 
     <form class="register__form" @submit.prevent="handleSubmit">
       <Field v-model="data.name" name="name" label="Nome" />
       <Field v-model="data.email" name="email" label="Email" />
 
-      <div class="d-grid grid-col-2 grid-gap-24">
+      <div class="register__row">
         <Selector v-model="data.address.country" name="country" label="País" :options="countries" />
         <Selector v-model="data.address.state" name="state" label="Estado" :options="states" />
       </div>
 
-      <div class="d-grid grid-col-2 grid-gap-24">
+      <div class="register__row">
         <Field v-model="data.address.city" name="city" label="Município" />
         <Field v-model="data.address.cep" name="cep" label="CEP" />
       </div>
 
-      <div class="d-grid grid-col-2 grid-gap-24">
+      <div class="register__row">
         <Field v-model="data.address.street" name="street" label="Rua" />
         <Field v-model="data.address.number" name="number" label="Número" />
       </div>
 
       <Field v-model="data.address.complement" name="complement" label="Complemento" />
-      <Field v-model="data.cpf" name="cpf" label="CPF" />
-      <Field v-model="data.pis" name="pis" label="PIS" />
-      <Field v-model="data.password" type="password" name="password" label="Senha" />
-      <Field
-        v-model="data.confirmPassword"
-        type="password"
-        name="confirmPassword"
-        label="Confirmar senha"
-      />
+
+      <div class="register__row">
+        <Field v-model="data.cpf" name="cpf" label="CPF" />
+        <Field v-model="data.pis" name="pis" label="PIS" />
+      </div>
+
+      <div class="register__row">
+        <Field v-model="data.password" type="password" name="password" label="Senha" />
+        <Field
+          v-model="data.confirmPassword"
+          type="password"
+          name="confirmPassword"
+          label="Confirmar senha"
+        />
+      </div>
 
       <Submit>CRIAR CONTA</Submit>
     </form>
@@ -178,6 +184,22 @@ export default {
     flex-direction: column;
     align-items: center;
     gap: var(--g-24);
+
+    @media (max-width: 576px) {
+      gap: var(--g-16);
+    }
+  }
+
+  &__row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--g-24);
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+      gap: var(--g-16);
+    }
   }
 }
 </style>

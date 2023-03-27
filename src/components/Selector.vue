@@ -50,6 +50,7 @@ export default {
     font-size: var(--fs-14);
   }
   &__selector {
+    width: 100%;
     color: var(--gray-900);
     font-size: var(--fs-14);
     border: 1px solid var(--gray-100);

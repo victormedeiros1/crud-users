@@ -96,6 +96,16 @@ export default {
   border-radius: 8px;
   padding: var(--p-32);
 
+  &__logo {
+    width: 128px;
+    height: 128px;
+
+    @media (max-width: 576px) {
+      width: 96px;
+      height: 96px;
+    }
+  }
+
   &__title {
     color: var(--gray-600);
   }

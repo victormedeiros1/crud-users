@@ -21,3 +21,12 @@ h1 {
 h2 {
   font-size: var(--fs-24);
 }
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: var(--fs-24);
+  }
+  h2 {
+    font-size: var(--fs-20);
+  }
+}

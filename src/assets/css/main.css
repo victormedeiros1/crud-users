@@ -2,4 +2,4 @@
 @import url('./fonts/typography.css');
 @import url('./theme/palette.css');
 @import url('./utils/spaces.css');
-@import url('./utils/grid.css');
+@import url('./utils/breakpoints.css');

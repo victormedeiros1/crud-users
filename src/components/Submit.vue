@@ -27,6 +27,10 @@ export default {
   border-radius: 8px;
   padding: var(--p-12) var(--p-24);
 
+  @media (max-width: 576px) {
+    font-size: var(--fs-16);
+  }
+
   &:hover {
     background-color: var(--primary-dark);
   }
