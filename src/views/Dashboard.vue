@@ -26,7 +26,7 @@ export default {
       if (this.userData === 'error') {
         this.toastMessage = messages.requestError
       } else {
-        this.toastMessage = 'Seus dados chegaram em segurança.'
+        this.toastMessage = messages.loginSuccess
       }
     }
   }
@@ -115,7 +115,7 @@ export default {
     </section>
 
     <footer class="dashboard__footer">
-      <Submit>EDITAR</Submit>
+      <Submit to="/dashboard/update">EDITAR</Submit>
     </footer>
   </main>
 </template>
