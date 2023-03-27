@@ -6,6 +6,7 @@ import Submit from '@/components/Submit.vue'
 import { headers } from '../../utils/requests'
 import { setSessionData } from '../../utils/session'
 import { messages } from '../../helpers/messages'
+import { passwordValidation } from '../../helpers/validations'
 
 export default {
   name: 'SignIn',
@@ -27,6 +28,11 @@ export default {
   },
   methods: {
     async handleSubmit() {
+      if (!passwordValidation(this.formData.password)) {
+        this.toastMessage = messages.password
+        return false
+      }
+
       const response = await this.loginRequest()
 
       // O backend por enquanto só verifica se o usuário existe, se não, retorna 404.
