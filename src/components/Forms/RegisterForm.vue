@@ -15,7 +15,7 @@ import {
 import { messages } from '../../helpers/messages'
 
 export default {
-  name: 'SignIn',
+  name: 'RegisterForm',
   components: {
     Field,
     Submit,
@@ -27,12 +27,12 @@ export default {
       countries,
       states,
       toastMessage: '',
-      data: {
+      formData: {
         name: '',
         email: '',
         address: {
-          country: '',
-          state: '',
+          country: 'Brasil',
+          state: 'Acre',
           city: '',
           cep: '',
           street: '',
@@ -49,31 +49,31 @@ export default {
   methods: {
     handleSubmit() {
       // Alternativa às máscaras
-      this.data.cpf = clearData(this.data.cpf)
-      this.data.pis = clearData(this.data.pis)
-      this.data.address.cep = clearData(this.data.address.cep)
+      this.formData.cpf = clearData(this.formData.cpf)
+      this.formData.pis = clearData(this.formData.pis)
+      this.formData.address.cep = clearData(this.formData.address.cep)
 
-      if (!emailValidation(this.data.email)) {
+      if (!emailValidation(this.formData.email)) {
         this.toastMessage = messages.email
         return false
       }
-      if (!cepValidation(this.data.address.cep)) {
+      if (!cepValidation(this.formData.address.cep)) {
         this.toastMessage = messages.cep
         return false
       }
-      if (!cpfValidation(this.data.cpf)) {
+      if (!cpfValidation(this.formData.cpf)) {
         this.toastMessage = messages.cpf
         return false
       }
-      if (!pisValidation(this.data.pis)) {
+      if (!pisValidation(this.formData.pis)) {
         this.toastMessage = messages.pis
         return false
       }
-      if (!passwordValidation(this.data.password)) {
+      if (!passwordValidation(this.formData.password)) {
         this.toastMessage = messages.password
         return false
       }
-      if (this.data.password !== this.data.confirmPassword) {
+      if (this.formData.password !== this.formData.confirmPassword) {
         this.toastMessage = messages.confirmPassword
         return false
       }
@@ -89,7 +89,7 @@ export default {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           },
-          body: JSON.stringify(this.data)
+          body: JSON.stringify(this.formData)
         }).then(({ status }) => {
           if (status === 200) {
             this.requestSuccess(status)
@@ -118,35 +118,41 @@ export default {
     <h2 class="register__title">Formulário de cadastro</h2>
 
     <form class="register__form" @submit.prevent="handleSubmit">
-      <Field v-model="data.name" name="name" label="Nome" />
-      <Field v-model="data.email" name="email" label="Email" />
+      <Field v-model="formData.name" name="name" label="Nome" />
+      <Field v-model="formData.email" name="email" label="Email" />
 
       <div class="register__row">
-        <Selector v-model="data.address.country" name="country" label="País" :options="countries" />
-        <Selector v-model="data.address.state" name="state" label="Estado" :options="states" />
+        <Selector
+          v-model="formData.address.country"
+          name="country"
+          label="País"
+          :options="countries"
+          @change="test"
+        />
+        <Selector v-model="formData.address.state" name="state" label="Estado" :options="states" />
       </div>
 
       <div class="register__row">
-        <Field v-model="data.address.city" name="city" label="Município" />
-        <Field v-model="data.address.cep" name="cep" label="CEP" />
+        <Field v-model="formData.address.city" name="city" label="Município" />
+        <Field v-model="formData.address.cep" name="cep" label="CEP" />
       </div>
 
       <div class="register__row">
-        <Field v-model="data.address.street" name="street" label="Rua" />
-        <Field v-model="data.address.number" name="number" label="Número" />
+        <Field v-model="formData.address.street" name="street" label="Rua" />
+        <Field v-model="formData.address.number" name="number" label="Número" />
       </div>
 
-      <Field v-model="data.address.complement" name="complement" label="Complemento" />
+      <Field v-model="formData.address.complement" name="complement" label="Complemento" />
 
       <div class="register__row">
-        <Field v-model="data.cpf" name="cpf" label="CPF" />
-        <Field v-model="data.pis" name="pis" label="PIS" />
+        <Field v-model="formData.cpf" name="cpf" label="CPF" />
+        <Field v-model="formData.pis" name="pis" label="PIS" />
       </div>
 
       <div class="register__row">
-        <Field v-model="data.password" type="password" name="password" label="Senha" />
+        <Field v-model="formData.password" type="password" name="password" label="Senha" />
         <Field
-          v-model="data.confirmPassword"
+          v-model="formData.confirmPassword"
           type="password"
           name="confirmPassword"
           label="Confirmar senha"
