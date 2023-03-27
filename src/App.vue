@@ -9,7 +9,7 @@ export default {
   data() {
     return {
       RouterView,
-      userName: sessionStorage.name ? sessionStorage.name : ''
+      userName: sessionStorage.name ? sessionStorage.getItem('name') : 'visitante'
     }
   }
 }
