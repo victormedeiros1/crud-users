@@ -40,8 +40,16 @@ export default {
 }
 .success {
   background-color: var(--success);
+
+  &:hover {
+    background-color: var(--successHover);
+  }
 }
 .error {
   background-color: var(--error);
+
+  &:hover {
+    background-color: var(--errorHover);
+  }
 }
 </style>
