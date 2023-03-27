@@ -8,5 +8,6 @@ export const messages = {
   confirmPassword: 'As senhas não conferem.',
   requestError: 'A requisição falhou.',
   userNotExist: 'Nenhuma conta encontrada com essas credenciais.',
-  loginSuccess: 'Login realizado com sucesso.'
+  loginSuccess: 'Login realizado com sucesso.',
+  userDeleted: 'Usuário apagado com sucesso'
 }

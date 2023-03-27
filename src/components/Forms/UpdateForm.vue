@@ -2,7 +2,7 @@
 import Field from '@/components/Field.vue'
 import Submit from '@/components/Submit.vue'
 
-import { getUser } from '../../utils/requests'
+import { getUser, headers } from '../../utils/requests'
 import { messages } from '../../helpers/messages'
 
 export default {
@@ -15,6 +15,23 @@ export default {
     return {
       userData: {
         address: {}
+      },
+      data: {
+        name: '',
+        email: '',
+        address: {
+          country: '',
+          state: '',
+          city: '',
+          cep: '',
+          street: '',
+          number: '',
+          complement: ''
+        },
+        cpf: '',
+        pis: '',
+        password: '',
+        confirmPassword: ''
       }
     }
   },
@@ -30,6 +47,29 @@ export default {
       } else {
         this.toastMessage = messages.loginSuccess
       }
+    },
+    async deleteUser() {
+      const userId = sessionStorage.getItem('id')
+
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_VUE_APP_API_BASE_URL + `/user/delete/${userId}`,
+          {
+            method: 'DELETE',
+            headers
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => data)
+
+        if (response.status === 200) {
+          this.toastMessage = messages.userDeleted
+          sessionStorage.clear()
+          this.$router.push('/')
+        }
+      } catch (error) {
+        this.toastMessage = messages.requestError
+      }
     }
   }
 }
@@ -41,33 +81,33 @@ export default {
       <section class="table">
         <h2 class="table__title">DADOS PESSOAIS</h2>
         <div class="table__row">
-          <Field v-model="userData.name" label="Nome" :value="userData.name" />
-          <Field v-model="userData.email" label="Email" />
+          <Field v-model="data.name" label="Nome" />
+          <Field v-model="data.email" label="Email" />
         </div>
 
         <div class="table__row">
-          <Field v-model="userData.cpf" label="CPF" />
-          <Field v-model="userData.pis" label="PIS" />
+          <Field v-model="data.cpf" label="CPF" />
+          <Field v-model="data.pis" label="PIS" />
         </div>
 
         <h2 class="table__title">ENDEREÇO</h2>
         <div class="table__row">
-          <Field v-model="userData.address.country" label="País" />
-          <Field v-model="userData.address.state" label="Estado" />
+          <Field v-model="data.address.country" label="País" />
+          <Field v-model="data.address.state" label="Estado" />
         </div>
 
         <div class="table__row">
-          <Field v-model="userData.address.city" label="Município" />
-          <Field v-model="userData.address.cep" label="CEP" />
+          <Field v-model="data.address.city" label="Município" />
+          <Field v-model="data.address.cep" label="CEP" />
         </div>
 
         <div class="table__row">
-          <Field v-model="userData.address.street" label="Rua" />
-          <Field v-model="userData.address.number" label="Número" />
+          <Field v-model="data.address.street" label="Rua" />
+          <Field v-model="data.address.number" label="Número" />
         </div>
 
         <div class="table__row">
-          <Field v-model="userData.address.complement" label="Complemento" />
+          <Field v-model="data.address.complement" label="Complemento" />
         </div>
       </section>
 
@@ -75,15 +115,15 @@ export default {
         <h2 class="table__title">SEGURANÇA</h2>
 
         <div class="table__row">
-          <Field v-model="userData.password" label="Senha" />
+          <Field v-model="data.password" label="Senha" />
         </div>
       </section>
 
       <footer class="update__footer">
         <Submit color="success">SALVAR</Submit>
-        <Submit color="error">DELETAR</Submit>
       </footer>
     </form>
+    <Submit color="error" @click="deleteUser">DELETAR</Submit>
   </div>
 </template>
 <style lang="scss" scoped>
