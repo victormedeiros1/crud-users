@@ -151,6 +151,10 @@ export default {
       width: 100%;
     }
 
+    &--full {
+      width: 100%;
+    }
+
     span {
       display: block;
     }
