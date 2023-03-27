@@ -2,7 +2,7 @@
 export default {
   name: 'Field',
   props: {
-    value: { type: String, default: '' },
+    required: { type: Boolean, default: false },
     type: { type: String, default: 'text' },
     name: { type: String, default: 'text' },
     label: { type: String, default: '' }
@@ -13,8 +13,7 @@ export default {
 
 <template>
   <div class="group">
-    <!-- <div class="group__toast">{{ name }}</div> -->
-    <label :for="name" class="group__label">{{ label }}</label>
+    <label :for="name" class="group__label">{{ label }} <span v-if="required">*</span></label>
     <input
       :id="name"
       class="group__field"
