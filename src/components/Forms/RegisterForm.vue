@@ -48,11 +48,14 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // Alternativa às máscaras
       this.formData.cpf = clearData(this.formData.cpf)
       this.formData.pis = clearData(this.formData.pis)
       this.formData.address.cep = clearData(this.formData.address.cep)
 
+      if (this.formData.name === '') {
+        this.toastMessage = messages.invalidName
+        return false
+      }
       if (!emailValidation(this.formData.email)) {
         this.toastMessage = messages.email
         return false
@@ -78,7 +81,7 @@ export default {
         return false
       }
 
-      // // Se os dados forem válidos, é feito o cadastro.
+      // Se os dados forem válidos, é feito o cadastro.
       this.requestAttempt()
     },
     requestAttempt() {
@@ -106,7 +109,6 @@ export default {
     },
     requestFailure() {
       this.toastMessage = messages.errorRequest
-      setTimeout(() => (this.toastMessage = ''), 5000)
     }
   }
 }
@@ -118,8 +120,8 @@ export default {
     <h2 class="register__title">Formulário de cadastro</h2>
 
     <form class="register__form" @submit.prevent="handleSubmit">
-      <Field v-model="formData.name" name="name" label="Nome" />
-      <Field v-model="formData.email" name="email" label="Email" />
+      <Field v-model="formData.name" name="name" label="Nome" required />
+      <Field v-model="formData.email" name="email" label="Email" required />
 
       <div class="register__row">
         <Selector
@@ -134,7 +136,7 @@ export default {
 
       <div class="register__row">
         <Field v-model="formData.address.city" name="city" label="Município" />
-        <Field v-model="formData.address.cep" name="cep" label="CEP" />
+        <Field v-model="formData.address.cep" name="cep" label="CEP" required />
       </div>
 
       <div class="register__row">
@@ -145,12 +147,12 @@ export default {
       <Field v-model="formData.address.complement" name="complement" label="Complemento" />
 
       <div class="register__row">
-        <Field v-model="formData.cpf" name="cpf" label="CPF" />
-        <Field v-model="formData.pis" name="pis" label="PIS" />
+        <Field v-model="formData.cpf" name="cpf" label="CPF" required />
+        <Field v-model="formData.pis" name="pis" label="PIS" required />
       </div>
 
       <div class="register__row">
-        <Field v-model="formData.password" type="password" name="password" label="Senha" />
+        <Field v-model="formData.password" type="password" name="password" label="Senha" required />
         <Field
           v-model="formData.confirmPassword"
           type="password"
