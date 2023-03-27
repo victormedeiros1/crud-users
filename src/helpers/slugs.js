@@ -3,6 +3,11 @@ export const countries = [
     id: 0,
     name: 'Brasil',
     value: 'Brasil'
+  },
+  {
+    id: 1,
+    name: 'Portugal',
+    value: 'Portugal'
   }
 ]
 

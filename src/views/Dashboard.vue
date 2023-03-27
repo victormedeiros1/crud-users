@@ -1,5 +1,4 @@
 <script>
-import Submit from '@/components/Submit.vue'
 import Toast from '@/components/Toast.vue'
 import { getUser } from '../utils/requests'
 import { messages } from '../helpers/messages'
@@ -7,7 +6,6 @@ import { messages } from '../helpers/messages'
 export default {
   name: 'Dashboard',
   components: {
-    Submit,
     Toast
   },
   data() {
@@ -22,6 +20,7 @@ export default {
   methods: {
     async loadUserData() {
       this.userData = await getUser()
+      console.log(this.userData)
 
       if (this.userData === 'error') {
         this.toastMessage = messages.requestError
@@ -68,11 +67,11 @@ export default {
         <tr>
           <td colspan="2">
             <span>País</span>
-            <span>{{ userData.country }}</span>
+            <span>{{ userData.address.country }}</span>
           </td>
           <td>
             <span>Estado</span>
-            <span>{{ userData.state }}</span>
+            <span>{{ userData.address.state }}</span>
           </td>
         </tr>
         <tr>
@@ -82,21 +81,21 @@ export default {
           </td>
           <td>
             <span>CEP</span>
-            <span>{{ userData.cep }}</span>
+            <span>{{ userData.address.cep }}</span>
           </td>
           <td colspan="2">
             <span>Rua</span>
-            <span>{{ userData.street }}</span>
+            <span>{{ userData.address.street }}</span>
           </td>
         </tr>
         <tr>
           <td colspan="2">
             <span>Número</span>
-            <span>{{ userData.number }}</span>
+            <span>{{ userData.address.number }}</span>
           </td>
           <td>
             <span>Complemento</span>
-            <span>{{ userData.complement }}</span>
+            <span>{{ userData.address.complement }}</span>
           </td>
         </tr>
       </table>
@@ -115,7 +114,7 @@ export default {
     </section>
 
     <footer class="dashboard__footer">
-      <Submit to="/dashboard/update">EDITAR</Submit>
+      <RouterLink to="/dashboard/update">Editar</RouterLink>
     </footer>
   </main>
 </template>

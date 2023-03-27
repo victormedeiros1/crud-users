@@ -7,5 +7,6 @@ export const messages = {
   password: 'A senha deve ter pelo menos 6 caracteres, uma letra maiúscula e um número.',
   confirmPassword: 'As senhas não conferem.',
   requestError: 'A requisição falhou.',
-  userNotExist: 'Nenhuma conta encontrada com essas credenciais.'
+  userNotExist: 'Nenhuma conta encontrada com essas credenciais.',
+  loginSuccess: 'Login realizado com sucesso.'
 }
