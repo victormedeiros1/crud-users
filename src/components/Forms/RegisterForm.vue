@@ -27,7 +27,6 @@ export default {
       countries,
       states,
       toastMessage: '',
-      loading: false,
       data: {
         name: '',
         email: '',
@@ -84,8 +83,6 @@ export default {
     },
     requestAttempt() {
       try {
-        this.loading = true
-
         fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/create-user', {
           method: 'POST',
           headers: {
@@ -102,8 +99,6 @@ export default {
         })
       } catch (error) {
         console.log(error)
-      } finally {
-        this.loading = false
       }
     },
     requestSuccess() {

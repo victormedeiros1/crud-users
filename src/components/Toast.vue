@@ -1,9 +1,3 @@
-<template>
-  <div class="toast" v-if="displayedMessage !== ''">
-    {{ displayedMessage }}
-  </div>
-</template>
-
 <script>
 export default {
   name: 'Toast',
@@ -24,6 +18,7 @@ export default {
   watch: {
     message() {
       this.displayedMessage = this.message
+
       setTimeout(() => {
         this.displayedMessage = ''
       }, this.duration)
@@ -31,6 +26,12 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div class="toast" v-if="displayedMessage !== ''">
+    {{ displayedMessage }}
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .toast {
