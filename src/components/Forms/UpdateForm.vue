@@ -13,10 +13,7 @@ export default {
   },
   data() {
     return {
-      userData: {
-        address: {}
-      },
-      data: {
+      formData: {
         name: '',
         email: '',
         address: {
@@ -81,33 +78,33 @@ export default {
       <section class="table">
         <h2 class="table__title">DADOS PESSOAIS</h2>
         <div class="table__row">
-          <Field v-model="data.name" label="Nome" />
-          <Field v-model="data.email" label="Email" />
+          <Field v-model="formData.name" label="Nome" />
+          <Field v-model="formData.email" label="Email" />
         </div>
 
         <div class="table__row">
-          <Field v-model="data.cpf" label="CPF" />
-          <Field v-model="data.pis" label="PIS" />
+          <Field v-model="formData.cpf" label="CPF" />
+          <Field v-model="formData.pis" label="PIS" />
         </div>
 
         <h2 class="table__title">ENDEREÇO</h2>
         <div class="table__row">
-          <Field v-model="data.address.country" label="País" />
-          <Field v-model="data.address.state" label="Estado" />
+          <Field v-model="formData.address.country" label="País" />
+          <Field v-model="formData.address.state" label="Estado" />
         </div>
 
         <div class="table__row">
-          <Field v-model="data.address.city" label="Município" />
-          <Field v-model="data.address.cep" label="CEP" />
+          <Field v-model="formData.address.city" label="Município" />
+          <Field v-model="formData.address.cep" label="CEP" />
         </div>
 
         <div class="table__row">
-          <Field v-model="data.address.street" label="Rua" />
-          <Field v-model="data.address.number" label="Número" />
+          <Field v-model="formData.address.street" label="Rua" />
+          <Field v-model="formData.address.number" label="Número" />
         </div>
 
         <div class="table__row">
-          <Field v-model="data.address.complement" label="Complemento" />
+          <Field v-model="formData.address.complement" label="Complemento" />
         </div>
       </section>
 
@@ -115,7 +112,7 @@ export default {
         <h2 class="table__title">SEGURANÇA</h2>
 
         <div class="table__row">
-          <Field v-model="data.password" label="Senha" />
+          <Field v-model="formData.password" label="Senha" />
         </div>
       </section>
 
