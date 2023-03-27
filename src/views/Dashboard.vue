@@ -28,7 +28,6 @@ export default {
       } else {
         this.toastMessage = 'Seus dados chegaram em segurança.'
       }
-      setTimeout(() => (this.toastMessage = ''), 5000)
     }
   }
 }

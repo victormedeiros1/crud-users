@@ -56,33 +56,26 @@ export default {
 
       if (!emailValidation(this.data.email)) {
         this.toastMessage = messages.email
-        setTimeout(() => (this.toastMessage = ''), 5000)
-
         return false
       }
       if (!cepValidation(this.data.address.cep)) {
         this.toastMessage = messages.cep
-        setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (!cpfValidation(this.data.cpf)) {
         this.toastMessage = messages.cpf
-        setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (!pisValidation(this.data.pis)) {
         this.toastMessage = messages.pis
-        setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (!passwordValidation(this.data.password)) {
         this.toastMessage = messages.password
-        setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
       if (this.data.password !== this.data.confirmPassword) {
         this.toastMessage = messages.confirmPassword
-        setTimeout(() => (this.toastMessage = ''), 5000)
         return false
       }
 
