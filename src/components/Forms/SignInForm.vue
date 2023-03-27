@@ -1,23 +1,25 @@
 <script>
 import { RouterLink } from 'vue-router'
 import Field from '@/components/Field.vue'
+import Toast from '@/components/Toast.vue'
 import Submit from '@/components/Submit.vue'
-import { requestAttempt } from '../../utils/requests'
+import { headers } from '../../utils/requests'
 import { setSessionData } from '../../utils/session'
+import { messages } from '../../helpers/messages'
 
 export default {
   name: 'SignIn',
   components: {
     Field,
     Submit,
+    Toast,
     RouterLink
   },
   data() {
     return {
-      requestAttempt,
+      toastMessage: '',
       loading: false,
-      route: '/auth',
-      data: {
+      formData: {
         login: '',
         password: ''
       }
@@ -25,10 +27,32 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const [data] = await this.requestAttempt(this.route, this.data)
-      const user = { ...data }
+      const response = await this.loginRequest()
 
-      setSessionData(user)
+      // O backend por enquanto só verifica se o usuário existe, se não, retorna 404.
+      if (response.status === 404) {
+        this.toastMessage = messages.userNotExist
+      } else {
+        const [data] = response
+        const user = { ...data }
+        setSessionData(user)
+        this.$router.push('/dashboard')
+      }
+    },
+    async loginRequest() {
+      try {
+        const response = await fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/auth', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(this.formData)
+        })
+          .then((response) => response.json())
+          .then((data) => data)
+
+        return response
+      } catch (error) {
+        this.toastMessage = messages.requestError
+      }
     }
   }
 }
@@ -36,13 +60,14 @@ export default {
 
 <template>
   <div class="sign-in">
+    <Toast :message="toastMessage" />
     <img class="sign-in__logo" src="/src/assets/images/logo.svg" />
 
     <h2 class="sign-in__title">Entre na plataforma</h2>
 
     <form class="sign-in__form" @submit.prevent="handleSubmit">
-      <Field v-model="data.login" name="login" label="Email, CPF ou PIS" />
-      <Field v-model="data.password" type="password" name="password" label="Senha" />
+      <Field v-model="formData.login" name="login" label="Email, CPF ou PIS" />
+      <Field v-model="formData.password" type="password" name="password" label="Senha" />
       <Submit>ENTRAR</Submit>
     </form>
 
