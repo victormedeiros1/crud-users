@@ -21,7 +21,6 @@ export default {
     async loadUserData() {
       const { user } = await getUser()
       this.userData = user
-      console.log(this.userData)
 
       if (this.userData === 'error') {
         this.toastMessage = messages.requestError

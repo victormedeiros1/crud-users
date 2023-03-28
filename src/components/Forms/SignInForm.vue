@@ -6,7 +6,7 @@ import Submit from '@/components/Submit.vue'
 import { headers } from '../../utils/requests'
 import { setSessionData } from '../../utils/session'
 import { messages } from '../../helpers/messages'
-import { passwordValidation } from '../../helpers/validations'
+import { validations } from '../../helpers/validations'
 
 export default {
   name: 'SignIn',
@@ -28,9 +28,15 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      if (!passwordValidation(this.formData.password)) {
-        this.toastMessage = messages.password
-        return false
+      // Autenticação de campos
+      for (const key of validations.extractAllKeys(this.formData)) {
+        if (validations[key]) {
+          if (!validations[key](this.formData[key])) {
+            this.toastMessage = messages[key]
+            setTimeout(() => (this.toastMessage = ''), 5000)
+            return false
+          }
+        }
       }
 
       const response = await this.loginRequest()

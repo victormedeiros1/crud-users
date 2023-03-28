@@ -5,7 +5,8 @@ export default {
     required: { type: Boolean, default: false },
     type: { type: String, default: 'text' },
     name: { type: String, default: 'text' },
-    label: { type: String, default: '' }
+    label: { type: String, default: '' },
+    maxLength: { type: String, default: '255' }
   },
   emits: ['update:modelValue']
 }
@@ -20,6 +21,7 @@ export default {
       :name="name"
       :type="type"
       @input="$emit('update:modelValue', $event.target.value)"
+      :maxlength="maxLength"
     />
   </div>
 </template>

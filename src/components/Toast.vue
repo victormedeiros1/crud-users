@@ -2,34 +2,14 @@
 export default {
   name: 'Toast',
   props: {
-    message: { type: String, default: '' },
-    duration: { type: Number, default: 5000 }
-  },
-  data() {
-    return {
-      displayedMessage: ''
-    }
-  },
-  computed: {
-    shouldShow() {
-      return this.message !== ''
-    }
-  },
-  watch: {
-    message() {
-      this.displayedMessage = this.message
-
-      setTimeout(() => {
-        this.displayedMessage = ''
-      }, this.duration)
-    }
+    message: { type: String, default: '' }
   }
 }
 </script>
 
 <template>
-  <div class="toast" v-if="displayedMessage !== ''">
-    {{ displayedMessage }}
+  <div class="toast" v-if="message !== ''">
+    {{ message }}
   </div>
 </template>
 

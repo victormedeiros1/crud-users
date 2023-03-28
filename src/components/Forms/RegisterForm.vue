@@ -4,14 +4,7 @@ import Submit from '@/components/Submit.vue'
 import Selector from '@/components/Selector.vue'
 import Toast from '@/components/Toast.vue'
 import { countries, states } from '../../helpers/slugs'
-import {
-  cpfValidation,
-  emailValidation,
-  cepValidation,
-  pisValidation,
-  passwordValidation,
-  clearData
-} from '../../helpers/validations'
+import { validations } from '../../helpers/validations'
 import { messages } from '../../helpers/messages'
 
 export default {
@@ -48,40 +41,17 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.formData.cpf = clearData(this.formData.cpf)
-      this.formData.pis = clearData(this.formData.pis)
-      this.formData.address.cep = clearData(this.formData.address.cep)
-
-      if (this.formData.name === '') {
-        this.toastMessage = messages.invalidName
-        return false
-      }
-      if (!emailValidation(this.formData.email)) {
-        this.toastMessage = messages.email
-        return false
-      }
-      if (!cepValidation(this.formData.address.cep)) {
-        this.toastMessage = messages.cep
-        return false
-      }
-      if (!cpfValidation(this.formData.cpf)) {
-        this.toastMessage = messages.cpf
-        return false
-      }
-      if (!pisValidation(this.formData.pis)) {
-        this.toastMessage = messages.pis
-        return false
-      }
-      if (!passwordValidation(this.formData.password)) {
-        this.toastMessage = messages.password
-        return false
-      }
-      if (this.formData.password !== this.formData.confirmPassword) {
-        this.toastMessage = messages.confirmPassword
-        return false
+      // Autenticação de campos
+      for (const key of validations.extractAllKeys(this.formData)) {
+        if (validations[key]) {
+          if (!validations[key](this.formData[key])) {
+            this.toastMessage = messages[key]
+            setTimeout(() => (this.toastMessage = ''), 5000)
+            return false
+          }
+        }
       }
 
-      // Se os dados forem válidos, é feito o cadastro.
       this.requestAttempt()
     },
     requestAttempt() {
@@ -120,7 +90,7 @@ export default {
     <h2 class="register__title">Formulário de cadastro</h2>
 
     <form class="register__form" @submit.prevent="handleSubmit">
-      <Field v-model="formData.name" name="name" label="Nome" required />
+      <Field v-model="formData.name" name="name" label="Nome" />
       <Field v-model="formData.email" name="email" label="Email" required />
 
       <div class="register__row">
@@ -129,14 +99,13 @@ export default {
           name="country"
           label="País"
           :options="countries"
-          @change="test"
         />
         <Selector v-model="formData.address.state" name="state" label="Estado" :options="states" />
       </div>
 
       <div class="register__row">
         <Field v-model="formData.address.city" name="city" label="Município" />
-        <Field v-model="formData.address.cep" name="cep" label="CEP" required />
+        <Field v-model="formData.address.cep" name="cep" label="CEP" maxLength="8" />
       </div>
 
       <div class="register__row">
@@ -147,8 +116,8 @@ export default {
       <Field v-model="formData.address.complement" name="complement" label="Complemento" />
 
       <div class="register__row">
-        <Field v-model="formData.cpf" name="cpf" label="CPF" required />
-        <Field v-model="formData.pis" name="pis" label="PIS" required />
+        <Field v-model="formData.cpf" name="cpf" label="CPF" maxLength="11" required />
+        <Field v-model="formData.pis" name="pis" label="PIS" maxLength="11" required />
       </div>
 
       <div class="register__row">
