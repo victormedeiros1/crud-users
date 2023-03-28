@@ -54,7 +54,6 @@ export const loginRequest = async (formData) => {
     })
       .then((response) => response.json())
       .then((data) => data)
-    console.log(response)
 
     if (response.status === 404) {
       return { message: messages.userNotExist }

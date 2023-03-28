@@ -1,23 +1,32 @@
 <script>
 import { RouterView } from 'vue-router'
 import Container from '@/components/Container.vue'
+import Submit from '@/components/Submit.vue'
 
 export default {
   components: {
     Container,
+    Submit,
     RouterView
   },
   data() {
     return {
-      userName: sessionStorage.getItem('name') ?? 'visitante'
+      userName: this.isLogged ? sessionStorage.getItem('name') : 'visitante',
+      isLogged: false
     }
   },
   watch: {
     $route: {
       handler: function () {
-        this.userName = sessionStorage.getItem('name') ?? 'visitante'
+        this.isLogged = sessionStorage.getItem('token')
       },
       deep: true
+    }
+  },
+  methods: {
+    logout() {
+      sessionStorage.clear()
+      this.$router.push('/')
     }
   }
 }
@@ -26,6 +35,7 @@ export default {
 <template>
   <Container>
     <header class="app-header">
+      <Submit v-if="isLogged" @click="logout" class="app-header__logout">SAIR</Submit>
       <h1 class="app-header__title">
         Olá,<br />
         {{ userName }}!
@@ -45,6 +55,11 @@ export default {
     @media (max-width: 576px) {
       font-size: var(--fs-16);
     }
+  }
+  &__logout {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 }
 </style>
