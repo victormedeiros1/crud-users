@@ -3,8 +3,14 @@ import { messages } from './messages'
 export const formDataValidate = (formData) => {
   for (const key of validations.extractAllKeys(formData)) {
     if (validations[key]) {
-      if (!validations[key](formData[key])) {
-        return { isValid: false, message: messages[key] }
+      if (key !== 'confirmPassword') {
+        if (!validations[key](formData[key])) {
+          return { isValid: false, message: messages[key] }
+        }
+      } else {
+        if (formData.password !== formData.confirmPassword) {
+          return { isValid: false, message: messages[key] }
+        }
       }
     }
   }
@@ -112,5 +118,12 @@ export const validations = {
     }
 
     return true
+  },
+  confirmPassword: (password, confirmPassword) => {
+    if (password === confirmPassword) {
+      return true
+    } else {
+      return false
+    }
   }
 }

@@ -2,8 +2,7 @@
 import Field from '@/components/Field.vue'
 import Submit from '@/components/Submit.vue'
 
-import { getUser, headers } from '../../utils/requests'
-import { messages } from '../../helpers/messages'
+import { getUser, deleteUser } from '../../utils/requests'
 
 export default {
   name: 'UpdateForm',
@@ -37,35 +36,24 @@ export default {
   },
   methods: {
     async loadUserData() {
-      this.userData = await getUser()
+      const response = await getUser()
 
-      if (this.userData === 'error') {
-        this.toastMessage = messages.requestError
+      if (response.user) {
+        this.userData = response.user
+        this.toastMessage = response.message
       } else {
-        this.toastMessage = messages.loginSuccess
+        this.toastMessage = response.message
       }
     },
-    async deleteUser() {
-      const userId = sessionStorage.getItem('id')
+    async handleDeleteUser() {
+      const response = await deleteUser()
 
-      try {
-        const response = await fetch(
-          import.meta.env.VITE_VUE_APP_API_BASE_URL + `/user/delete/${userId}`,
-          {
-            method: 'DELETE',
-            headers
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => data)
-
-        if (response.status === 200) {
-          this.toastMessage = messages.userDeleted
-          sessionStorage.clear()
-          this.$router.push('/')
-        }
-      } catch (error) {
-        this.toastMessage = messages.requestError
+      if (response.status) {
+        this.toastMessage = response.message
+        sessionStorage.clear()
+        this.$router.push('/')
+      } else {
+        this.toastMessage = response.message
       }
     }
   }
@@ -120,7 +108,7 @@ export default {
         <Submit color="success">SALVAR</Submit>
       </footer>
     </form>
-    <Submit color="error" @click="deleteUser">DELETAR</Submit>
+    <Submit color="error" @click="handleDeleteUser">DELETAR</Submit>
   </div>
 </template>
 <style lang="scss" scoped>

@@ -1,8 +1,25 @@
 import { messages } from '../helpers/messages'
 
-export const headers = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*'
+export const createUser = async (formData) => {
+  try {
+    const response = await fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/create-user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+
+    if (response.status) {
+      return { status: response.status, message: messages.success }
+    } else {
+      return { message: messages.requestError }
+    }
+  } catch (error) {
+    return { message: messages.requestError }
+  }
 }
 
 export const getUser = async () => {
@@ -30,16 +47,43 @@ export const loginRequest = async (formData) => {
   try {
     const response = await fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/auth', {
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(formData)
     })
       .then((response) => response.json())
       .then((data) => data)
+    console.log(response)
 
     if (response.status === 404) {
       return { message: messages.userNotExist }
     } else {
       return { user: response, message: messages.success }
+    }
+  } catch (error) {
+    return { message: messages.requestError }
+  }
+}
+
+export const deleteUser = async () => {
+  const userId = sessionStorage.getItem('id')
+  const token = sessionStorage.getItem('token')
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_VUE_APP_API_BASE_URL + `/user/delete/${userId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => data)
+
+    if (response.status === 200) {
+      return { status: response.status, message: messages.userDeleted }
     }
   } catch (error) {
     return { message: messages.requestError }

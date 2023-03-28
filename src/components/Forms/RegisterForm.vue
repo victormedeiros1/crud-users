@@ -5,7 +5,7 @@ import Selector from '@/components/Selector.vue'
 import Toast from '@/components/Toast.vue'
 import { countries, states } from '../../helpers/slugs'
 import { formDataValidate } from '../../helpers/validations'
-import { messages } from '../../helpers/messages'
+import { createUser } from '../../utils/requests'
 
 export default {
   name: 'RegisterForm',
@@ -40,41 +40,21 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       const { isValid, message } = formDataValidate(this.formData)
 
       if (isValid) {
-        this.requestAttempt()
-        this.toastMessage = message
+        const response = await createUser(this.formData)
+
+        if (response.status) {
+          this.toastMessage = response.message
+          this.$router.push('/')
+        } else {
+          this.toastMessage = message
+        }
       } else {
         this.toastMessage = message
       }
-    },
-    requestAttempt() {
-      try {
-        fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/create-user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify(this.formData)
-        }).then(({ status }) => {
-          if (status === 200) {
-            this.requestSuccess(status)
-          } else {
-            this.requestFailure(status)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    requestSuccess() {
-      this.$router.push('/')
-    },
-    requestFailure() {
-      this.toastMessage = messages.errorRequest
     }
   }
 }
