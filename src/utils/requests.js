@@ -22,6 +22,35 @@ export const createUser = async (formData) => {
   }
 }
 
+export const updateUser = async (formData) => {
+  const userId = sessionStorage.getItem('id')
+  const token = sessionStorage.getItem('token')
+
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_VUE_APP_API_BASE_URL + `/user/update/${userId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => data)
+
+    if (response.status) {
+      return { status: response.status, message: messages.success, loading: false }
+    } else {
+      return { message: messages.requestError }
+    }
+  } catch (error) {
+    return { message: messages.requestError }
+  }
+}
+
 export const getUser = async () => {
   const userId = sessionStorage.getItem('id')
   const token = sessionStorage.getItem('token')
