@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 import Field from '@/components/Field.vue'
 import Toast from '@/components/Toast.vue'
 import Submit from '@/components/Submit.vue'
-import { setSessionData } from '../../utils/session'
+import { setSessionCookie, setSessionData } from '../../utils/session'
 import { formDataValidate } from '../../helpers/validations'
 import { loginRequest } from '../../utils/requests'
 
@@ -36,6 +36,7 @@ export default {
           this.toastMessage = response.message
           const user = { ...response.user }
           setSessionData(user)
+          setSessionCookie(user)
           this.$router.push('/dashboard')
         } else {
           this.toastMessage = response.message

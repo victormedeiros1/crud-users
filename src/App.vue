@@ -23,6 +23,7 @@ export default {
       deep: true
     }
   },
+
   methods: {
     logout() {
       sessionStorage.clear()
