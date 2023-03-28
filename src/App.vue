@@ -9,28 +9,16 @@ export default {
   },
   data() {
     return {
-      userName: 'visitante'
+      userName: sessionStorage.getItem('name') ?? 'visitante'
     }
   },
-  mounted() {
-    // Como não há verificação por Token, essa linha simula uma autenticação.
-    // this.simulatingAuthentication()
-  },
-  methods: {
-    // simulatingAuthentication() {
-    //   if (location.pathname === '/' || location.pathname === '/register') {
-    //     if (sessionStorage.getItem('id')) {
-    //       this.userName = sessionStorage.getItem('name')
-    //       this.$router.push('/dashboard')
-    //     }
-    //   } else {
-    //     if (sessionStorage.getItem('id')) {
-    //       this.userName = sessionStorage.getItem('name')
-    //     } else {
-    //       this.$router.push('/')
-    //     }
-    //   }
-    // }
+  watch: {
+    $route: {
+      handler: function () {
+        this.userName = sessionStorage.getItem('name') ?? 'visitante'
+      },
+      deep: true
+    }
   }
 }
 </script>
