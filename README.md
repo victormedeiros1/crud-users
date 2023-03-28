@@ -17,6 +17,11 @@ Todos os componentes, paleta de cores e telas foram feitas e estão representada
 npm install
 ```
 
+3º Este projeto utiliza variáveis de ambiente para se conectar a API, fala o seguinte:
+- Duplique o arquivo `.env-example`
+- Renomei a cópia para `.env`
+Isso é necessário para que a variável de ambiente seja setada e as requisições possam ser feitas.
+
 2º Levantando o servidor
 ```sh
 npm run dev
