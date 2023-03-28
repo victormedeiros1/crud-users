@@ -11,23 +11,27 @@ export default {
   },
   data() {
     return {
-      userName: this.isLogged ? sessionStorage.getItem('name') : 'visitante',
-      isLogged: false
+      isLogged: false,
+      userName: 'visitante'
     }
   },
-  watch: {
-    $route: {
-      handler: function () {
-        this.isLogged = sessionStorage.getItem('token')
-      },
-      deep: true
-    }
-  },
-
   methods: {
     logout() {
       sessionStorage.clear()
+      this.isLogged = false
       this.$router.push('/')
+    }
+  },
+  watch: {
+    $route() {
+      const token = !!sessionStorage.getItem('token')
+      if (token) {
+        this.userName = sessionStorage.getItem('name')
+        this.isLogged = true
+      } else {
+        this.userName = 'visitante'
+        this.isLogged = false
+      }
     }
   }
 }
