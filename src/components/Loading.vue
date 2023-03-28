@@ -19,8 +19,8 @@ export default {
 </template>
 <style lang="scss" scoped>
 .loading {
-  width: 14px;
-  height: 14px;
+  width: 64px;
+  height: 64px;
 
   animation: loading-rotate 1.4s linear infinite;
   -webkit-animation: loading-rotate 1.4s linear infinite;

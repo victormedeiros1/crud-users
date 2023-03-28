@@ -1,14 +1,17 @@
 <script>
 import Toast from '@/components/Toast.vue'
+import Loading from '@/components/Loading.vue'
 import { getUser } from '../utils/requests'
 
 export default {
   name: 'Dashboard',
   components: {
-    Toast
+    Toast,
+    Loading
   },
   data() {
     return {
+      loading: true,
       userData: {},
       toastMessage: ''
     }
@@ -21,6 +24,7 @@ export default {
       const response = await getUser()
 
       if (response.user) {
+        this.loading = response.loading
         this.userData = response.user
         this.toastMessage = response.message
       } else {
@@ -32,7 +36,8 @@ export default {
 </script>
 
 <template>
-  <main class="table">
+  <Loading v-if="loading" />
+  <main v-else class="table">
     <Toast :message="toastMessage" />
     <section class="table__section">
       <h2 class="table__title">DADOS PESSOAIS</h2>

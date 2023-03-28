@@ -13,7 +13,7 @@ export const createUser = async (formData) => {
       .then((data) => data)
 
     if (response.status) {
-      return { status: response.status, message: messages.success }
+      return { status: response.status, message: messages.success, loading: false }
     } else {
       return { message: messages.requestError }
     }
