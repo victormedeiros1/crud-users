@@ -4,13 +4,33 @@ import Container from '@/components/Container.vue'
 
 export default {
   components: {
-    Container
+    Container,
+    RouterView
   },
   data() {
     return {
-      RouterView,
-      userName: sessionStorage.name ? sessionStorage.getItem('name') : 'visitante'
+      userName: 'visitante'
     }
+  },
+  mounted() {
+    // Como não há verificação por Token, essa linha simula uma autenticação.
+    // this.simulatingAuthentication()
+  },
+  methods: {
+    // simulatingAuthentication() {
+    //   if (location.pathname === '/' || location.pathname === '/register') {
+    //     if (sessionStorage.getItem('id')) {
+    //       this.userName = sessionStorage.getItem('name')
+    //       this.$router.push('/dashboard')
+    //     }
+    //   } else {
+    //     if (sessionStorage.getItem('id')) {
+    //       this.userName = sessionStorage.getItem('name')
+    //     } else {
+    //       this.$router.push('/')
+    //     }
+    //   }
+    // }
   }
 }
 </script>

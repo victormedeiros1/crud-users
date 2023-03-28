@@ -3,10 +3,9 @@ import { RouterLink } from 'vue-router'
 import Field from '@/components/Field.vue'
 import Toast from '@/components/Toast.vue'
 import Submit from '@/components/Submit.vue'
-import { headers } from '../../utils/requests'
 import { setSessionData } from '../../utils/session'
-import { messages } from '../../helpers/messages'
-import { validations } from '../../helpers/validations'
+import { formDataValidate } from '../../helpers/validations'
+import { loginRequest } from '../../utils/requests'
 
 export default {
   name: 'SignIn',
@@ -28,42 +27,21 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      // Autenticação de campos
-      for (const key of validations.extractAllKeys(this.formData)) {
-        if (validations[key]) {
-          if (!validations[key](this.formData[key])) {
-            this.toastMessage = messages[key]
-            setTimeout(() => (this.toastMessage = ''), 5000)
-            return false
-          }
+      const { isValid, message } = formDataValidate(this.formData)
+
+      if (isValid) {
+        const response = await loginRequest(this.formData)
+
+        if (response.user) {
+          this.toastMessage = response.message
+          const user = { ...response.user }
+          setSessionData(user)
+          this.$router.push('/dashboard')
+        } else {
+          this.toastMessage = response.message
         }
-      }
-
-      const response = await this.loginRequest()
-
-      // O backend por enquanto só verifica se o usuário existe, se não, retorna 404.
-      if (response.status === 404) {
-        this.toastMessage = messages.userNotExist
       } else {
-        const [data] = response
-        const user = { ...data }
-        setSessionData(user)
-        this.$router.push('/dashboard')
-      }
-    },
-    async loginRequest() {
-      try {
-        const response = await fetch(import.meta.env.VITE_VUE_APP_API_BASE_URL + '/auth', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(this.formData)
-        })
-          .then((response) => response.json())
-          .then((data) => data)
-
-        return response
-      } catch (error) {
-        this.toastMessage = messages.requestError
+        this.toastMessage = message
       }
     }
   }

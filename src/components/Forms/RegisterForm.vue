@@ -4,7 +4,7 @@ import Submit from '@/components/Submit.vue'
 import Selector from '@/components/Selector.vue'
 import Toast from '@/components/Toast.vue'
 import { countries, states } from '../../helpers/slugs'
-import { validations } from '../../helpers/validations'
+import { formDataValidate } from '../../helpers/validations'
 import { messages } from '../../helpers/messages'
 
 export default {
@@ -41,18 +41,14 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // Autenticação de campos
-      for (const key of validations.extractAllKeys(this.formData)) {
-        if (validations[key]) {
-          if (!validations[key](this.formData[key])) {
-            this.toastMessage = messages[key]
-            setTimeout(() => (this.toastMessage = ''), 5000)
-            return false
-          }
-        }
-      }
+      const { isValid, message } = formDataValidate(this.formData)
 
-      this.requestAttempt()
+      if (isValid) {
+        this.requestAttempt()
+        this.toastMessage = message
+      } else {
+        this.toastMessage = message
+      }
     },
     requestAttempt() {
       try {

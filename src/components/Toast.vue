@@ -3,12 +3,27 @@ export default {
   name: 'Toast',
   props: {
     message: { type: String, default: '' }
+  },
+  data() {
+    return {
+      showToast: false
+    }
+  },
+  watch: {
+    message(newVal) {
+      if (newVal !== '') {
+        this.showToast = true
+        setTimeout(() => {
+          this.showToast = false
+        }, 5000)
+      }
+    }
   }
 }
 </script>
 
 <template>
-  <div class="toast" v-if="message !== ''">
+  <div class="toast" v-if="showToast">
     {{ message }}
   </div>
 </template>

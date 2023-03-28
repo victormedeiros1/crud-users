@@ -1,7 +1,6 @@
 <script>
 import Toast from '@/components/Toast.vue'
 import { getUser } from '../utils/requests'
-import { messages } from '../helpers/messages'
 
 export default {
   name: 'Dashboard',
@@ -19,13 +18,13 @@ export default {
   },
   methods: {
     async loadUserData() {
-      const { user } = await getUser()
-      this.userData = user
+      const response = await getUser()
 
-      if (this.userData === 'error') {
-        this.toastMessage = messages.requestError
+      if (response.user) {
+        this.userData = response.user
+        this.toastMessage = response.message
       } else {
-        this.toastMessage = messages.loginSuccess
+        this.toastMessage = response.message
       }
     }
   }

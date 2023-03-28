@@ -11,5 +11,5 @@ export const messages = {
   loginSuccess: 'Login realizado com sucesso.',
   userDeleted: 'Usuário apagado com sucesso.',
   emptyValue: 'Todos os campos devem ser preenchidos.',
-  invalidName: 'Você colocou seu nome?'
+  success: 'Operação concluída com sucesso!'
 }
