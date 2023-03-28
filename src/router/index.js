@@ -15,7 +15,10 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/register',
@@ -25,9 +28,25 @@ const router = createRouter({
     {
       path: '/dashboard/update',
       name: 'update',
-      component: Update
+      component: Update,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const token = sessionStorage.getItem('token')
+    if (token) {
+      next()
+    } else {
+      next('/')
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
